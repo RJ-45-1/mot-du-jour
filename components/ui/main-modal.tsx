@@ -1,22 +1,41 @@
 "use client";
 import { createClient } from "@/lib/supabase/client";
 import { MotDuJour } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DoneMotDuJourCard from "./done-mot-du-jour-card";
 import QuestionCard from "./question-card";
 import Response from "./response";
 
-export default function MainModal({
-  motDuJour,
-  userInfo,
-}: {
-  motDuJour: MotDuJour;
-  userInfo: any;
-}) {
+type UserInfos = {
+  id: string;
+  done_mot_du_jour: boolean;
+  streaks: number;
+};
+
+export default function MainModal({ motDuJour }: { motDuJour: MotDuJour }) {
   const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await supabase.auth.getUser();
+      const { data: userInfos, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", user.data.user?.id)
+        .single();
+
+      if (userInfos) {
+        setUserInfos(userInfos as UserInfos);
+      }
+    };
+    getUser();
+  }, []);
 
   const [selectedProposition, setSelectedProposition] = useState<string | null>(
     null,
   );
+  const [userInfos, setUserInfos] = useState<UserInfos>();
+
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [validated, setValidated] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -30,46 +49,58 @@ export default function MainModal({
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
+    console.log("correct : ", motDuJour.correct);
+    console.log("selected : ", selectedProposition);
+    if (userInfos) {
+      setIsSubmitting(true);
 
-    if (selectedProposition === motDuJour.correct) {
-      const { data, error } = await supabase
-        .from("users")
-        .update([{ streaks: 1, done_mot_du_jour: true }])
-        .eq("id", userInfo.user.id);
-      setIsCorrect(true);
-      if (error) {
-        console.log(error);
+      if (selectedProposition === motDuJour.correct) {
+        const { data, error } = await supabase
+          .from("users")
+          .update([{ streaks: userInfos.streaks + 1, done_mot_du_jour: true }])
+          .eq("id", userInfos?.id);
+        if (error) {
+          console.log(error);
+        }
+        setIsCorrect(true);
+      } else {
+        const { error } = await supabase
+          .from("users")
+          .update([{ streaks: 0, done_mot_du_jour: true }])
+          .eq("id", userInfos?.id);
+        if (error) {
+          console.log(error);
+        }
+        setIsCorrect(false);
       }
-    } else {
-      const { error } = await supabase
-        .from("users")
-        .update([{ streaks: 0, done_mot_du_jour: true }])
-        .eq("id", userInfo.user.id);
-      setIsCorrect(false);
-      if (error) {
-        console.log(error);
-      }
+      setIsSubmitting(false);
+      setValidated(true);
     }
-    setIsSubmitting(false);
-    setValidated(true);
   };
   return (
     <>
-      <QuestionCard
-        isSubmitting={isSubmitting}
-        handleSubmit={() => handleSubmit()}
-        motDuJour={motDuJour}
-        selectedProposition={selectedProposition}
-        handlePropositionSelected={handlePropositionSelected}
-      />
-      {validated && (
-        <Response
-          correctAnswer={motDuJour.correct}
-          setValidated={() => setValidated(false)}
-          isCorrect={isCorrect}
-        />
-      )}
+      {userInfos &&
+        (userInfos.done_mot_du_jour ? (
+          <DoneMotDuJourCard />
+        ) : (
+          <>
+            <QuestionCard
+              isSubmitting={isSubmitting}
+              handleSubmit={handleSubmit}
+              motDuJour={motDuJour}
+              selectedProposition={selectedProposition}
+              handlePropositionSelected={handlePropositionSelected}
+            />
+            {validated && (
+              <Response
+                streaks={userInfos.streaks}
+                correctAnswer={motDuJour.correct}
+                setValidated={() => setValidated(false)}
+                isCorrect={isCorrect}
+              />
+            )}
+          </>
+        ))}
     </>
   );
 }

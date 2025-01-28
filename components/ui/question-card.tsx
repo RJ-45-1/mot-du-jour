@@ -22,7 +22,7 @@ export default function QuestionCard({
     <Card className="w-full md:w-2/3">
       <CardHeader>
         <CardTitle className="flex flex-row justify-center items-center">
-          <NotebookPen className="mr-2" /> Le mot du jour:
+          <NotebookPen className="mr-2 text-primary" /> Le mot du jour:
           <p className="text-lg ml-2 underline">{motDuJour.mot}</p>
         </CardTitle>
         <CardTitle className="flex flex-row justify-center items-center">
@@ -33,7 +33,7 @@ export default function QuestionCard({
         <div className="flex flex-wrap justify-center gap-4 mt-4">
           {motDuJour.propositions.map((proposition, key) => (
             <Button
-              className={`${proposition === selectedProposition ? "bg-primary/10 hover:bg-primary/10 text-accent-foreground" : ""} md:w-2/3 w-full`}
+              className={`${proposition === selectedProposition ? "bg-primary/30 hover:bg-primary/30 text-accent-foreground" : ""} md:w-2/3 w-full`}
               key={key}
               variant={"outline"}
               onClick={() => handlePropositionSelected(proposition)}

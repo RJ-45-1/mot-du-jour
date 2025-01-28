@@ -8,19 +8,18 @@ import { Suspense } from "react";
 export default async function Home() {
   try {
     const supabase = createClient();
-    const userInfo = await supabase.auth.getSession();
+
     const motDuJour = await getMotDuJour(supabase);
 
     if (!motDuJour) {
       return <div>No word of the day found</div>;
     }
-    console.log("user info ", userInfo);
 
     return (
       <div className="flex flex-col items-center justify-center min-h-dvh p-4">
         <SignOutButton />
         <Suspense fallback={<QuestionCardSkeleton />}>
-          <MainModal motDuJour={motDuJour} userInfo={userInfo} />
+          <MainModal motDuJour={motDuJour} />
         </Suspense>
       </div>
     );

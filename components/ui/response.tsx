@@ -1,12 +1,14 @@
 import { CircleCheck, CircleX, Flame, X } from "lucide-react";
 
 type ResponseProps = {
+  streaks: number;
   isCorrect: boolean;
   correctAnswer: string;
   setValidated: (newState: boolean) => void;
 };
 
 export default function Response({
+  streaks,
   isCorrect,
   correctAnswer,
   setValidated,
@@ -21,7 +23,7 @@ export default function Response({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity">
-          <button className="p-2" onClick={() => setValidated(false)}>
+          <button className="p-2" onClick={() => (window.location.href = "/")}>
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -36,6 +38,7 @@ export default function Response({
               <p className="mt-2">Tu as trouvé la bonne réponse</p>
               <div className="mt-4 flex flex-row justify-center items-center w-full">
                 <Flame className="text-orange-400" />
+                <p>{streaks + 1}</p>
               </div>
             </>
           ) : (
@@ -47,6 +50,7 @@ export default function Response({
               <p className="mt-2">Il fallait trouver: {correctAnswer}</p>
               <div className="mt-4 flex flex-row justify-center items-center w-full">
                 <Flame className="text-orange-400" />
+                <p>0</p>
               </div>
             </>
           )}

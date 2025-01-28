@@ -45,7 +45,7 @@ export default function Response({
             <>
               <div className="flex flex-row items-center justify-center text-red-600">
                 <CircleX className="mr-2" />
-                <p>Et non du con ...</p>
+                <p>Et non...</p>
               </div>
               <p className="mt-2">Il fallait trouver: {correctAnswer}</p>
               <div className="mt-4 flex flex-row justify-center items-center w-full">

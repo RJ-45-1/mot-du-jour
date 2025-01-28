@@ -1,0 +1,16 @@
+"use client";
+import { createClient } from "@/lib/supabase/client";
+import { LogOut } from "lucide-react";
+
+export default function SignOutButton() {
+  const supabase = createClient();
+  const handleSignOut = () => {
+    supabase.auth.signOut();
+    window.location.href = "/";
+  };
+  return (
+    <button className="absolute top-4 right-4" onClick={() => handleSignOut()}>
+      <LogOut />
+    </button>
+  );
+}

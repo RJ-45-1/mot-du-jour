@@ -11,3 +11,10 @@ export const getMotDuJour = cache(async (supabase: SupabaseClient) => {
     return data as MotDuJour;
   }
 });
+
+export const getUser = cache(async (supabase: SupabaseClient) => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user;
+});

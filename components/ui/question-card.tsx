@@ -1,9 +1,10 @@
 import { MotDuJour } from "@/types";
-import { NotebookPen } from "lucide-react";
+import { Loader2, NotebookPen } from "lucide-react";
 import { Button } from "./button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 
 type QuestionCardProps = {
+  isSubmitting: boolean;
   selectedProposition: null | string;
   motDuJour: MotDuJour;
   handlePropositionSelected: (propostion: string) => void;
@@ -11,6 +12,7 @@ type QuestionCardProps = {
 };
 
 export default function QuestionCard({
+  isSubmitting,
   motDuJour,
   selectedProposition,
   handlePropositionSelected,
@@ -46,6 +48,7 @@ export default function QuestionCard({
           disabled={typeof selectedProposition !== "string"}
           onClick={() => handleSubmit()}
         >
+          {isSubmitting && <Loader2 className="animate-spin ml-2" />}
           <p className="text-sm md:text-base">Valider</p>
         </Button>
       </CardFooter>

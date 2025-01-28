@@ -142,8 +142,14 @@ export default function SignUp() {
                 type="button" // Changed from "submit" to "button"
                 className="w-full"
                 onClick={handleSignUp}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSignUp();
+                  }
+                }}
               >
-                s'inscrire{" "}
+                S'inscrire{" "}
                 {loading && <Loader2 className="animate-spin ml-2" />}
               </Button>
             </div>

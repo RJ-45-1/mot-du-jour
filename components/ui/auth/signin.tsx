@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -118,8 +118,15 @@ export default function SignIn() {
                 type="button" // Changed from "submit" to "button"
                 className="w-full"
                 onClick={handleSignIn}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+
+                    e.preventDefault();
+                    handleSignIn();
+                  }
+                }}
               >
-                s'inscrire{" "}
+                Se connecter{" "}
                 {loading && <Loader2 className="animate-spin ml-2" />}
               </Button>
             </div>

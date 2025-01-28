@@ -158,7 +158,7 @@ export default function SignUp() {
         </CardContent>
         <CardFooter className="flex flex-row w-full justify-center items-center">
           <Link href={"/signin"} className="text-sm hover:underline">
-            Se connecter
+            Sign in
           </Link>
         </CardFooter>
       </Card>

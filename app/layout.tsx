@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto_Mono } from "next/font/google";
 import "./globals.css";
@@ -29,7 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className}`}>{children}</body>
+      <body className={` ${roboto.className} min-h-dvh flex flex-col`}>
+        <main className="flex-1">{children}</main>
+        <Toaster />
+        {/* <Footer /> */}
+      </body>
     </html>
   );
 }

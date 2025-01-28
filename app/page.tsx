@@ -1,7 +1,7 @@
 import MainModal from "@/components/ui/main-modal";
 import QuestionCardSkeleton from "@/components/ui/question-card-skeleton";
-import { createClient } from "@/utils/supabase/client";
-import { getMotDuJour } from "@/utils/supabase/queries";
+import { createClient } from "@/lib/supabase/client";
+import { getMotDuJour } from "@/lib/supabase/queries";
 import { Suspense } from "react";
 
 export default async function Home() {

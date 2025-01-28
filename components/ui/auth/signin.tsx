@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -64,7 +64,8 @@ export default function SignIn() {
     <div className="space-y-4">
       <Card className="min-w-[400px]">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Bienvenue au jeu de mot</CardTitle>
+          <CardTitle className="text-xl">Sign In</CardTitle>
+          <CardTitle>Bienvenue au jeu de mot</CardTitle>
           <CardDescription>
             Apprendre des mots pour être moins con
           </CardDescription>
@@ -120,7 +121,6 @@ export default function SignIn() {
                 onClick={handleSignIn}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
-
                     e.preventDefault();
                     handleSignIn();
                   }

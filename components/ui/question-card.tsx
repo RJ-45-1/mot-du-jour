@@ -21,12 +21,12 @@ export default function QuestionCard({
   return (
     <Card className="w-full md:w-2/3">
       <CardHeader>
-        <CardTitle className="flex flex-row justify-center items-center">
+        <CardTitle className="flex flex-row justify-center items-center text-sm md:text-lg">
           <NotebookPen className="mr-2 text-primary" /> Le mot du jour:
-          <p className="text-lg ml-2 underline">{motDuJour.mot}</p>
+          <p className="text-sm md:text-lg ml-2 underline">{motDuJour.mot}</p>
         </CardTitle>
         <CardTitle className="flex flex-row justify-center items-center">
-          <p>Qui signifie ..</p>
+          <p className="text-sm md:text-base">Qui signifie ...</p>
         </CardTitle>
       </CardHeader>
       <CardContent>

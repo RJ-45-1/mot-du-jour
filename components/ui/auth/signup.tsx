@@ -88,7 +88,8 @@ export default function SignUp() {
     <div className="space-y-4">
       <Card className="min-w-[400px]">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Bienvenue au jeu de mot</CardTitle>
+          <CardTitle className="text-xl">Sign Up</CardTitle>
+          <CardTitle>Bienvenue au jeu de mot</CardTitle>
           <CardDescription>
             Apprendre des mots pour être moins con
           </CardDescription>

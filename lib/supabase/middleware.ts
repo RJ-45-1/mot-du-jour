@@ -2,8 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
+  // Create response early
+  let response = NextResponse.next({
+    request: request.clone(),
   });
 
   const supabase = createServerClient(
@@ -11,43 +12,66 @@ export async function updateSession(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return request.cookies.getAll();
+        get(name: string) {
+          return request.cookies.get(name)?.value;
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value),
-          );
-          supabaseResponse = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
-          );
+        set(name: string, value: string, options: any) {
+          response.cookies.set(name, value, options);
+        },
+        remove(name: string, options: any) {
+          response.cookies.set(name, "", options);
         },
       },
     },
   );
 
-  // Do not run code between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  // IMPORTANT: DO NOT REMOVE auth.getUser()
+    // If no user and not on auth pages, redirect to signin
+    if (
+      !user &&
+      !request.nextUrl.pathname.startsWith("/signin") &&
+      !request.nextUrl.pathname.startsWith("/signup")
+    ) {
+      const url = new URL("/signin", request.url);
+      return NextResponse.redirect(url);
+    }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    // If user exists, check additional conditions
+    if (user) {
+      const { data: userInfos, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", user.id)
+        .single();
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/signin") &&
-    !request.nextUrl.pathname.startsWith("/signup")
-  ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/signin";
-    return NextResponse.redirect(url);
+      if (error || !userInfos) {
+        console.error("Error fetching user info:", error);
+        return response;
+      }
+
+      // Check mot_du_jour condition
+      if (!userInfos.done_mot_du_jour && request.nextUrl.pathname !== "/") {
+        const url = new URL("/", request.url);
+        return NextResponse.redirect(url);
+      }
+
+      // Check leaderboard condition
+      if (
+        userInfos.done_mot_du_jour &&
+        !request.nextUrl.pathname.startsWith("/leaderboard")
+      ) {
+        const url = new URL("/leaderboard", request.url);
+        return NextResponse.redirect(url);
+      }
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Middleware error:", error);
+    return response;
   }
-
-  return NextResponse.next();
 }

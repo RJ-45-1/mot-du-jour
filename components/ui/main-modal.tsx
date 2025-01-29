@@ -74,33 +74,35 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
       setValidated(true);
     }
   };
-  return (
-    <>
-      {userInfos && !userInfos.done_mot_du_jour ? (
-        motDuJour.length === 1 ? (
-          <>
-            <DailyQuestionCard
-              isSubmitting={isSubmitting}
-              handleSubmit={handleSubmit}
-              motDuJour={motDuJour[0]}
-              selectedProposition={selectedProposition}
-              handlePropositionSelected={handlePropositionSelected}
-            />
-            {validated && (
-              <Response
-                streaks={userInfos.streaks}
-                correctAnswer={motDuJour[0].correct}
-                setValidated={() => setValidated(false)}
-                isCorrect={isCorrect}
+  if (userInfos) {
+    return (
+      <>
+        {userInfos && !userInfos.done_mot_du_jour ? (
+          motDuJour.length === 1 ? (
+            <>
+              <DailyQuestionCard
+                isSubmitting={isSubmitting}
+                handleSubmit={handleSubmit}
+                motDuJour={motDuJour[0]}
+                selectedProposition={selectedProposition}
+                handlePropositionSelected={handlePropositionSelected}
               />
-            )}
-          </>
+              {validated && (
+                <Response
+                  streaks={userInfos.streaks}
+                  correctAnswer={motDuJour[0].correct}
+                  setValidated={() => setValidated(false)}
+                  isCorrect={isCorrect}
+                />
+              )}
+            </>
+          ) : (
+            <Evaluation motDuJour={motDuJour} userInfos={userInfos} />
+          )
         ) : (
-          <Evaluation motDuJour={motDuJour} userInfos={userInfos} />
-        )
-      ) : (
-        <QuestionCardSkeleton />
-      )}
-    </>
-  );
+          <QuestionCardSkeleton />
+        )}
+      </>
+    );
+  }
 }

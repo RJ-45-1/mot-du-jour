@@ -1,8 +1,8 @@
 "use client";
 import { createClient } from "@/lib/supabase/client";
 import { MotDuJour } from "@/types";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import DoneMotDuJourCard from "./done-mot-du-jour-card";
 import QuestionCard from "./question-card";
 import Response from "./response";
 
@@ -26,6 +26,9 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour }) {
 
       if (userInfos) {
         setUserInfos(userInfos as UserInfos);
+      }
+      if (userInfos.done_mot_du_jour) {
+        return redirect("/leaderboard");
       }
     };
     getUser();
@@ -79,28 +82,25 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour }) {
   };
   return (
     <>
-      {userInfos &&
-        (userInfos.done_mot_du_jour ? (
-          <DoneMotDuJourCard />
-        ) : (
-          <>
-            <QuestionCard
-              isSubmitting={isSubmitting}
-              handleSubmit={handleSubmit}
-              motDuJour={motDuJour}
-              selectedProposition={selectedProposition}
-              handlePropositionSelected={handlePropositionSelected}
+      {userInfos && !userInfos.done_mot_du_jour && (
+        <>
+          <QuestionCard
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit}
+            motDuJour={motDuJour}
+            selectedProposition={selectedProposition}
+            handlePropositionSelected={handlePropositionSelected}
+          />
+          {validated && (
+            <Response
+              streaks={userInfos.streaks}
+              correctAnswer={motDuJour.correct}
+              setValidated={() => setValidated(false)}
+              isCorrect={isCorrect}
             />
-            {validated && (
-              <Response
-                streaks={userInfos.streaks}
-                correctAnswer={motDuJour.correct}
-                setValidated={() => setValidated(false)}
-                isCorrect={isCorrect}
-              />
-            )}
-          </>
-        ))}
+          )}
+        </>
+      )}
     </>
   );
 }

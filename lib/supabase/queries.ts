@@ -1,4 +1,4 @@
-import { MotDuJour } from "@/types";
+import { LeaderboardType, MotDuJour } from "@/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { cache } from "react";
 
@@ -9,6 +9,16 @@ export const getMotDuJour = async (supabase: SupabaseClient) => {
     console.log(error);
   } else if (data) {
     return data as MotDuJour;
+  }
+};
+
+export const getLeaderboard = async (supabase: SupabaseClient) => {
+  const { data, error } = await supabase.rpc("get_leaderboard");
+
+  if (error) {
+    console.log(error);
+  } else if (data) {
+    return data as LeaderboardType[];
   }
 };
 

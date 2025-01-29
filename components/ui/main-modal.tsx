@@ -6,6 +6,7 @@ import { MotDuJour, UserInfos } from "@/types";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Evaluation from "./questions-cards/evaluation";
+import QuestionCardSkeleton from "./questions-cards/question-card-skeleton";
 
 export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
   const supabase = createClient();
@@ -75,9 +76,8 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
   };
   return (
     <>
-      {userInfos &&
-        !userInfos.done_mot_du_jour &&
-        (motDuJour.length === 1 ? (
+      {userInfos && !userInfos.done_mot_du_jour ? (
+        motDuJour.length === 1 ? (
           <>
             <DailyQuestionCard
               isSubmitting={isSubmitting}
@@ -97,7 +97,10 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
           </>
         ) : (
           <Evaluation motDuJour={motDuJour} userInfos={userInfos} />
-        ))}
+        )
+      ) : (
+        <QuestionCardSkeleton />
+      )}
     </>
   );
 }

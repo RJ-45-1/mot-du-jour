@@ -25,6 +25,7 @@ interface SupabaseError {
 export default function SignUp() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { toast } = useToast();
@@ -52,6 +53,7 @@ export default function SignUp() {
           {
             id: uuid,
             streaks: 0,
+            name: name,
             done_mot_du_jour: false,
           },
         ]);
@@ -109,6 +111,17 @@ export default function SignUp() {
                 />
               </div>
               <div className="grid gap-2">
+                <Label htmlFor="email">Name</Label>
+                <Input
+                  id="pseudo"
+                  type="pseudo"
+                  placeholder="big boss"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Mot de passe</Label>
                 </div>
@@ -139,7 +152,11 @@ export default function SignUp() {
                 </div>
               </div>
               <Button
-                disabled={email.length === 0 || password.length === 0}
+                disabled={
+                  email.length === 0 ||
+                  password.length === 0 ||
+                  name.length === 0
+                }
                 type="button" // Changed from "submit" to "button"
                 className="w-full"
                 onClick={handleSignUp}
@@ -158,7 +175,7 @@ export default function SignUp() {
         </CardContent>
         <CardFooter className="flex flex-row w-full justify-center items-center">
           <Link href={"/signin"} className="text-sm hover:underline">
-            Sign in
+            Sign ing
           </Link>
         </CardFooter>
       </Card>

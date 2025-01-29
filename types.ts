@@ -3,3 +3,8 @@ export type MotDuJour = {
   propositions: string[];
   correct: string;
 };
+
+export type LeaderboardType = {
+  name: string;
+  streaks: number;
+};

@@ -17,7 +17,7 @@ export default async function Leaderboard({
   return (
     <Card className="md:w-1/3 w-full">
       <CardContent className="pt-2">
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full h-[350px] overflow-y-scroll">
           <div className="text-center">
             <h2 className="text-2xl font-bold">Leaderboard</h2>
             <p className="text-gray-500 dark:text-gray-400">
@@ -35,7 +35,7 @@ export default async function Leaderboard({
             <TableBody>
               {data &&
                 data.map((player, rank) => (
-                  <TableRow>
+                  <TableRow key={rank}>
                     <TableCell className="font-medium items-center">
                       {" "}
                       {rank + 1}

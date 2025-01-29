@@ -14,16 +14,16 @@ export default function Response({
   setValidated,
 }: ResponseProps) {
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/30 animate-fadeIn"
-      onClick={() => setValidated(false)}
-    >
+    <div className="fixed inset-0 z-50 bg-black/30 animate-fadeIn">
       <div
         className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-modalSlideIn"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity">
-          <button className="p-2" onClick={() => (window.location.href = "/")}>
+          <button
+            className="p-2"
+            onClick={() => (window.location.href = "/leaderboard")}
+          >
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

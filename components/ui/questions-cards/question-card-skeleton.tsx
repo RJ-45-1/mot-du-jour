@@ -1,7 +1,13 @@
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { NotebookPen } from "lucide-react";
-import { Button } from "./button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
-import { Skeleton } from "./skeleton";
 
 export default function QuestionCardSkeleton() {
   return (
@@ -16,14 +22,14 @@ export default function QuestionCardSkeleton() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-wrap justify-center gap-4 mt-4">
+        <div className="flex flex-col justify-center items-center gap-4 mt-4">
           {[1, 2, 3, 4].map((_, index) => (
             <Button
-              className="animate-fade-in w-[300px] mr-2 mt-4"
+              className="animate-fade-in w-2/3 mr-2"
               key={index}
               variant={"outline"}
             >
-              <Skeleton className="w-[300px] h-[20px]" />
+              <Skeleton className="w-5/6 h-[20px]" />
             </Button>
           ))}
         </div>

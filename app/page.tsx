@@ -1,5 +1,5 @@
 import MainModal from "@/components/ui/main-modal";
-import QuestionCardSkeleton from "@/components/ui/question-card-skeleton";
+import QuestionCardSkeleton from "@/components/ui/questions-cards/question-card-skeleton";
 import SignOutButton from "@/components/ui/signout-button";
 import { createClient } from "@/lib/supabase/client";
 import { getMotDuJour } from "@/lib/supabase/queries";
@@ -10,6 +10,43 @@ export default async function Home() {
     const supabase = createClient();
 
     const motDuJour = await getMotDuJour(supabase);
+    console.log(motDuJour);
+
+    // const motDuJour: MotDuJour[] = [
+    //   {
+    //     mot: "Quintessence 1",
+    //     propositions: [
+    //       "Cinquième tentative pour faire quelque chose",
+    //       "Ce qu'il y a de plus raffiné, de plus subtil dans quelque chose",
+    //       "Essence de carburant de qualité supérieure",
+    //       "Partie la plus pure et la plus raffinée d'une substance",
+    //     ],
+    //     correct:
+    //       "Ce qu'il y a de plus raffiné, de plus subtil dans quelque chose",
+    //   },
+    //   {
+    //     mot: "Quintessence 2",
+    //     propositions: [
+    //       "Cinquième tentative pour faire quelque chose",
+    //       "Ce qu'il y a de plus raffiné, de plus subtil dans quelque chose",
+    //       "Essence de carburant de qualité supérieure",
+    //       "Partie la plus pure et la plus raffinée d'une substance",
+    //     ],
+    //     correct:
+    //       "Ce qu'il y a de plus raffiné, de plus subtil dans quelque chose",
+    //   },
+    //   {
+    //     mot: "Quintessence 3",
+    //     propositions: [
+    //       "Cinquième tentative pour faire quelque chose",
+    //       "Ce qu'il y a de plus raffiné, de plus subtil dans quelque chose",
+    //       "Essence de carburant de qualité supérieure",
+    //       "Partie la plus pure et la plus raffinée d'une substance",
+    //     ],
+    //     correct:
+    //       "Ce qu'il y a de plus raffiné, de plus subtil dans quelque chose",
+    //   },
+    // ];
 
     if (!motDuJour) {
       return <div>No word of the day found</div>;

@@ -33,7 +33,7 @@ export default function QuestionCard({
         <div className="flex flex-wrap justify-center gap-4 mt-4">
           {motDuJour.propositions.map((proposition, key) => (
             <Button
-              className={`${proposition === selectedProposition ? "bg-primary/30 hover:bg-primary/30 text-accent-foreground" : ""} md:w-2/3 w-full`}
+              className={`${proposition === selectedProposition ? "bg-primary/30 hover:bg-primary/30 text-accent-foreground" : ""} md:w-3/4 w-full`}
               key={key}
               variant={"outline"}
               onClick={() => handlePropositionSelected(proposition)}

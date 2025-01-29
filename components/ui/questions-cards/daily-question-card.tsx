@@ -1,7 +1,13 @@
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { MotDuJour } from "@/types";
 import { Loader2, NotebookPen } from "lucide-react";
-import { Button } from "./button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 
 type QuestionCardProps = {
   isSubmitting: boolean;
@@ -11,7 +17,7 @@ type QuestionCardProps = {
   handleSubmit: () => void;
 };
 
-export default function QuestionCard({
+export default function DailyQuestionCard({
   isSubmitting,
   motDuJour,
   selectedProposition,

@@ -1,4 +1,4 @@
-import { CircleCheck, CircleX, Flame, X } from "lucide-react";
+import { ArrowRight, CircleCheck, CircleX, Flame } from "lucide-react";
 
 type ResponseProps = {
   streaks: number;
@@ -24,7 +24,7 @@ export default function Response({
       >
         <div className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity">
           <button className="p-2" onClick={() => (window.location.href = "/")}>
-            <X className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
@@ -45,7 +45,7 @@ export default function Response({
             <>
               <div className="flex flex-row items-center justify-center text-red-600">
                 <CircleX className="mr-2" />
-                <p>Et non...</p>
+                <p>Et non du con...</p>
               </div>
               <p className="mt-2">Il fallait trouver: {correctAnswer}</p>
               <div className="mt-4 flex flex-row justify-center items-center w-full">

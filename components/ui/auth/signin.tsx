@@ -121,6 +121,7 @@ export default function SignIn() {
                 onClick={handleSignIn}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
+                    console.log("entered");
                     e.preventDefault();
                     handleSignIn();
                   }

@@ -1,12 +1,13 @@
 import Leaderboard from "@/components/ui/leaderboard/leaderboard";
 import LeaderboardSkeleton from "@/components/ui/leaderboard/leaderboard-skeleton";
 import SignOutButton from "@/components/ui/signout-button";
-import { createClient } from "@/lib/supabase/client";
+
 import { getLeaderboard } from "@/lib/supabase/queries";
+import { createClient } from "@/lib/supabase/server";
 import { Suspense } from "react";
 
 export default async function Page() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const leaderboardData = await Promise.resolve(getLeaderboard(supabase));
 
   return (

@@ -13,7 +13,7 @@ export default async function LeaderboardSkeleton() {
   return (
     <Card className="md:w-1/3 w-full">
       <CardContent className="pt-2">
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4 w-full h-[350px]">
           <div className="text-center">
             <h2 className="text-2xl font-bold">Leaderboard</h2>
             <p className="text-gray-500 dark:text-gray-400">
@@ -28,7 +28,7 @@ export default async function LeaderboardSkeleton() {
                 <TableHead className="text-right">Streaks</TableHead>
               </TableRow>
             </TableHeader>
-            {[1, 2, 3, 4, 5].map((_, index) => (
+            {[1, 2, 3, 4, 5, 6, 7].map((_, index) => (
               <TableBody className="relative">
                 <TableRow>
                   <TableCell>

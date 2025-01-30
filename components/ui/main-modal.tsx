@@ -1,39 +1,21 @@
 "use client";
 import DailyQuestionCard from "@/components/ui/questions-cards/daily-question-card";
 import Response from "@/components/ui/questions-cards/response";
+import { useUser } from "@/hooks/use-user";
 import { createClient } from "@/lib/supabase/client";
-import { MotDuJour, UserInfos } from "@/types";
+import { MotDuJour } from "@/types";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Evaluation from "./questions-cards/evaluation";
 import QuestionCardSkeleton from "./questions-cards/question-card-skeleton";
 
 export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
   const supabase = createClient();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const user = await supabase.auth.getUser();
-      const { data: userInfos, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("id", user.data.user?.id)
-        .single();
-
-      if (userInfos) {
-        setUserInfos(userInfos as UserInfos);
-      }
-      if (userInfos.done_mot_du_jour) {
-        return redirect("/leaderboard");
-      }
-    };
-    getUser();
-  }, []);
-
   const [selectedProposition, setSelectedProposition] = useState<string | null>(
     null,
   );
-  const [userInfos, setUserInfos] = useState<UserInfos>();
+  const { userInfos, isLoading, error } = useUser();
 
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [validated, setValidated] = useState<boolean>(false);
@@ -87,33 +69,35 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
       setValidated(true);
     }
   };
+  if (isLoading) return <QuestionCardSkeleton />;
+  if (error) return <div>Error loading user data</div>;
+  if (userInfos?.done_mot_du_jour) {
+    redirect("/leaderboard");
+    return null;
+  }
   if (userInfos) {
     return (
       <>
-        {userInfos && !userInfos.done_mot_du_jour ? (
-          motDuJour.length === 1 ? (
-            <>
-              <DailyQuestionCard
-                isSubmitting={isSubmitting}
-                handleSubmit={handleSubmit}
-                motDuJour={motDuJour[0]}
-                selectedProposition={selectedProposition}
-                handlePropositionSelected={handlePropositionSelected}
+        {motDuJour.length === 1 ? (
+          <>
+            <DailyQuestionCard
+              isSubmitting={isSubmitting}
+              handleSubmit={handleSubmit}
+              motDuJour={motDuJour[0]}
+              selectedProposition={selectedProposition}
+              handlePropositionSelected={handlePropositionSelected}
+            />
+            {validated && (
+              <Response
+                streaks={userInfos.streaks}
+                correctAnswer={motDuJour[0].correct}
+                setValidated={() => setValidated(false)}
+                isCorrect={isCorrect}
               />
-              {validated && (
-                <Response
-                  streaks={userInfos.streaks}
-                  correctAnswer={motDuJour[0].correct}
-                  setValidated={() => setValidated(false)}
-                  isCorrect={isCorrect}
-                />
-              )}
-            </>
-          ) : (
-            <Evaluation motDuJour={motDuJour} userInfos={userInfos} />
-          )
+            )}
+          </>
         ) : (
-          <QuestionCardSkeleton />
+          <Evaluation motDuJour={motDuJour} userInfos={userInfos} />
         )}
       </>
     );

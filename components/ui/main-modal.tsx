@@ -61,12 +61,21 @@ export default function MainModal({ motDuJour }: { motDuJour: MotDuJour[] }) {
         }
         setIsCorrect(true);
       } else {
-        const { error } = await supabase
-          .from("users")
-          .update([{ streaks: 0, done_mot_du_jour: true }])
-          .eq("id", userInfos?.id);
-        if (error) {
-          console.log(error);
+        if (userInfos.streaks >= 1) {
+          const { error } = await supabase
+            .from("users")
+            .update([
+              { streaks: userInfos.streaks - 1, done_mot_du_jour: true },
+            ])
+            .eq("id", userInfos?.id);
+          if (error) {
+            console.log(error);
+          } else {
+            const { error } = await supabase
+              .from("users")
+              .update([{ streaks: 0, done_mot_du_jour: true }])
+              .eq("id", userInfos?.id);
+          }
         }
         setIsCorrect(false);
       }

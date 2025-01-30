@@ -21,14 +21,15 @@ export default function Response({
       >
         <div className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity">
           <button
-            className="p-2"
+            className="p-2 flex flex-row items-center hover:underline"
             onClick={() => (window.location.href = "/leaderboard")}
           >
-            <ArrowRight className="h-4 w-4" />
+            Leaderboard
+            <ArrowRight className="h-4 w-4 ml-2" />
           </button>
         </div>
 
-        <div className="w-full flex flex-col justify-center items-center animate-contentFadeIn">
+        <div className="w-full flex flex-col justify-center items-center animate-contentFadeIn mt-6">
           {isCorrect ? (
             <>
               <div className="flex flex-row items-center justify-center text-green-600">

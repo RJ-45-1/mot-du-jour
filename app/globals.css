@@ -70,3 +70,52 @@ body {
         @apply bg-background text-foreground;
     }
 }
+@layer utilities {
+    /* Hide scrollbar for Chrome, Safari, Opera, and newer browsers */
+    .scrollbar-hidden::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    /* Hide scrollbar for IE, Edge, and Firefox */
+    .scrollbar-hidden {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        overflow: -moz-scrollbars-none; /* Old Firefox */
+        scrollbar-color: transparent transparent; /* Modern Firefox */
+    }
+
+    /* Additional fallbacks for older browsers */
+    .scrollbar-hidden {
+        overflow: auto; /* Ensure scrolling still works */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    .scrollbar-hidden {
+        /* Old IE */
+        *overflow-y: hidden;
+        /* Very old browsers */
+        scrollbar-face-color: transparent;
+        scrollbar-shadow-color: transparent;
+        scrollbar-highlight-color: transparent;
+        scrollbar-3dlight-color: transparent;
+        scrollbar-darkshadow-color: transparent;
+        scrollbar-track-color: transparent;
+        scrollbar-arrow-color: transparent;
+    }
+
+    /* IE 10+ specific styles */
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .scrollbar-hidden {
+            -ms-overflow-style: none;
+        }
+    }
+
+    /* For older versions of Firefox */
+    @-moz-document url-prefix() {
+        .scrollbar-hidden {
+            scrollbar-width: none;
+        }
+    }
+}

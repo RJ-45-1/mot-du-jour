@@ -4,8 +4,8 @@ import { LogOut } from "lucide-react";
 
 export default function SignOutButton() {
   const supabase = createClient();
-  const handleSignOut = () => {
-    supabase.auth.signOut();
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
     window.location.href = "/signin";
   };
   return (
